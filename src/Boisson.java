@@ -6,10 +6,31 @@ public class Boisson {
     private ArrayList<Ingredient> listeIngredient;
     private int prix;
 
+    private static String nom_DEFAULT = "N/A";
+    private static int prix_DEFAULT = 0;
+
     public Boisson(String nom, int prix, Ingredient... ingredients) {
         this.nom = nom;
         this.prix = prix;
         this.listeIngredient = new ArrayList<Ingredient>(Arrays.asList(ingredients));
+    }
+
+    public Boisson(String nom, Ingredient... ingredients) {
+        this.nom = nom;
+        this.prix = prix_DEFAULT;
+        this.listeIngredient = new ArrayList<Ingredient>(Arrays.asList(ingredients));
+    }
+
+    public Boisson(int prix, Ingredient... ingredients) {
+        this.nom = nom_DEFAULT;
+        this.prix = prix;
+        this.listeIngredient = new ArrayList<Ingredient>(Arrays.asList(ingredients));
+    }
+
+    public Boisson() {
+        this.nom = nom_DEFAULT;
+        this.prix = prix;
+        this.listeIngredient = new ArrayList<Ingredient>();
     }
 
     public String getNom() {

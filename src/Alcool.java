@@ -1,6 +1,7 @@
 public class Alcool extends Boisson{
 
     private int degre;
+    private static int degre_DEFAULT = 0;
 
     public Alcool(String nom, int prix, int degre, Ingredient... ingredients) {
         super(nom, prix, ingredients);

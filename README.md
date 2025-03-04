@@ -24,16 +24,17 @@ Dans un second onglet, il aura accès à toutes les boissons qu’il sert afin d
 
 La figure 1 présente le diagramme de classe de notre projet (UML).
 
- 
-Figure 1: Diagramme de classe UML
-
-#Maquette IHM
-La figure 2 présente les maquettes des différentes interfaces IHM prévues pour notre projet.
 ![Diagramme UML](./img/DiagrammeClasse.png)
+
+# Maquette IHM
+
+La figure 2 présente les maquettes des différentes interfaces IHM prévues pour notre projet.
+
+![Maquette IHM](./img/IHM.png)
 
 #### Indiquer les ressources (site web, video, IA générative, etc) q
 
-***Commandes Git***
+# Commandes Git
 
 Pour importer la bonne version à jour du main (quand tu commences a bosser)
 

@@ -1,12 +1,37 @@
 public class Alcool extends Boisson{
 
-    private int degre;
-    private static int degre_DEFAULT = 0;
+    private double degre;
 
-    public Alcool(String nom, int prix, int degre, Ingredient... ingredients) {
+    private static String nom_DEFAULT = "N/A";
+    private static int prix_DEFAULT = 0;
+    private static double degre_DEFAULT = 0;
+
+    public Alcool(String nom, int prix, double degre, Ingredient... ingredients) {
         super(nom, prix, ingredients);
         this.degre = degre;
     }
+
+    public Alcool(int prix, double degre, Ingredient... ingredients) {
+        super(nom_DEFAULT, prix, ingredients);
+        this.degre = degre;
+    }
+
+    public Alcool(String nom, double degre, Ingredient... ingredients) {
+        super(nom_DEFAULT, prix_DEFAULT, ingredients);
+        this.degre = degre;
+    }
+
+    public Alcool(double degre, Ingredient... ingredients) {
+        super(nom_DEFAULT, prix_DEFAULT, ingredients);
+        this.degre = degre;
+    }
+
+    public Alcool(Ingredient... ingredients){
+        super(nom_DEFAULT, prix_DEFAULT, ingredients);
+        this.degre = degre;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

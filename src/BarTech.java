@@ -10,7 +10,7 @@ public class BarTech {
         Ingredient i5 = new Ingredient("Rhum Blanc",189);
         Ingredient i6 = new Ingredient("Menthe",46);
         Boisson cafe = new Boisson("Café", 5, i1, i2, i3);
-        Boisson cocktail = new Alcool("Cocktail", 5,34, i4, i5, i6);
+        Boisson cocktail = new Alcool("Cocktail", 5,8.6, i4, i5, i6);
         System.out.println(cafe);
         System.out.println(cocktail);
 

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Boisson {
+public abstract class Boisson {
     private String nom;
     private ArrayList<Ingredient> listeIngredient;
     private int prix;

@@ -42,6 +42,8 @@ public class Ingredient {
         this.quantite = quantite;
     }
 
+
+
     @Override
     public String toString() {
         return  nom +

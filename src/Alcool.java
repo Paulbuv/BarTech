@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Alcool extends Boisson{
 
     private double degre;
@@ -31,9 +33,14 @@ public class Alcool extends Boisson{
         this.degre = degre;
     }
 
-    public void commanderAlcool(int x){
+    public void commanderAlcool(int x, Ingredient... ingredients){
         this.setCptCommande(getCptCommande() + x);
-        for (Ingredient ing : getListeIngredient()) {
+        ArrayList<Ingredient> listeTemp = new ArrayList<>();
+        listeTemp = this.getListeIngredient();
+        for (Ingredient ing : ingredients) {
+            listeTemp.remove(ing);
+        }
+        for (Ingredient ing : listeTemp) {
             ing.setQuantite(ing.getQuantite() - x);
         }
     }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Soft extends Boisson{
     private static final String nom_DEFAULT = "N/A";
     private static final int prix_DEFAULT = 0;
@@ -18,9 +20,14 @@ public class Soft extends Boisson{
         super(nom_DEFAULT, prix_DEFAULT, ingredients);
     }
 
-    public void commanderSoft(int x){
+    public void commanderSoft(int x, Ingredient... ingredients){
         this.setCptCommande(getCptCommande() + x);
-        for (Ingredient ing : getListeIngredient()) {
+        ArrayList<Ingredient> listeTemp = new ArrayList<>();
+        listeTemp = this.getListeIngredient();
+        for (Ingredient ing : ingredients) {
+            listeTemp.remove(ing);
+        }
+        for (Ingredient ing : listeTemp) {
             ing.setQuantite(ing.getQuantite() - x);
         }
     }

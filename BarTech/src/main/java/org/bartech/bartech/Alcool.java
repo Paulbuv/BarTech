@@ -1,3 +1,5 @@
+package org.bartech.bartech;
+
 import java.util.ArrayList;
 
 public class Alcool extends Boisson{

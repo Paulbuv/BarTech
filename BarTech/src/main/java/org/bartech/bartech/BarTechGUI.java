@@ -1,4 +1,4 @@
-
+package org.bartech.bartech;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

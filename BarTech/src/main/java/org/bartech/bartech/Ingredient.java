@@ -1,3 +1,5 @@
+package org.bartech.bartech;
+
 public class Ingredient {
     private String nom;
     private int quantite;

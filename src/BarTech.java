@@ -19,11 +19,9 @@ public class BarTech {
         stock.incrementerIngredient(i1, 36);
         stock.incrementerIngredient(i3, 37);
         System.out.println(stock);
-        cafe.commanderSoft(1);
-        cocktail.commanderAlcool(4);
+        cafe.commanderSoft(1, i1);
+        cocktail.commanderAlcool(4, i4, i5);
         System.out.println(stock);
-
-
 
         }
     }

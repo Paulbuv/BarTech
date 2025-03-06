@@ -1,5 +1,4 @@
 public class Soft extends Boisson{
-
     private static final String nom_DEFAULT = "N/A";
     private static final int prix_DEFAULT = 0;
 
@@ -19,10 +18,18 @@ public class Soft extends Boisson{
         super(nom_DEFAULT, prix_DEFAULT, ingredients);
     }
 
+    public void commanderSoft(int x){
+        this.setCptCommande(getCptCommande() + x);
+        for (Ingredient ing : getListeIngredient()) {
+            ing.setQuantite(ing.getQuantite() - x);
+        }
+    }
+
+    public void commandeSoft(Soft soft) {}
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getNom()).append(" , prix : ").append(getPrix()).append(", ");
+        sb.append(getNom()).append(" , prix : ").append(getPrixBoisson()).append(", ");
         sb.append("Recette :\n");
         for (Ingredient ingredient : getListeIngredient()) {
             sb.append("- ").append(ingredient.getNom()).append("    quantité restantes : ")

@@ -17,7 +17,7 @@ Dans un second onglet, il aura accès à toutes les boissons qu’il sert afin d
 
 
 
-Générer une alerte lorsque le stock d’un ingrédient commence à être faible
+- [ ] 	Générer une alerte lorsque le stock d’un ingrédient commence à être faible
 - [ ] 	Indisponibilité de certaines boissons si le stock d’un ingrédient est vide (grisée dans l’IHM).
 - [ ] 	[OPTIONNEL] Étapes 2, 3 et 5 pour des snacks (sous onglet de l’onglet « Boissons »)
 - [ ] 	[OPTIONNEL] Ajout de comptes utilisateurs pour les barmans avec des droits pour gérer le stock.

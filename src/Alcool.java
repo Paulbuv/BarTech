@@ -31,11 +31,16 @@ public class Alcool extends Boisson{
         this.degre = degre;
     }
 
-
+    public void commanderAlcool(int x){
+        this.setCptCommande(getCptCommande() + x);
+        for (Ingredient ing : getListeIngredient()) {
+            ing.setQuantite(ing.getQuantite() - x);
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getNom()).append(" , prix : ").append(getPrix());
+        sb.append(getNom()).append(" , prix : ").append(getPrixBoisson());
         sb.append(" , Taux d'Alcoolémie : ").append(degre).append("\n");
         sb.append("Recette :\n");
         for (Ingredient ingredient : getListeIngredient()) {

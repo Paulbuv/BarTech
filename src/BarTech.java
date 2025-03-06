@@ -3,14 +3,14 @@
 public class BarTech {
     public static void main(String[] args) {
 
-        Ingredient i1 = new Ingredient("Café",0);
-        Ingredient i2 = new Ingredient("Sucre",0);
-        Ingredient i3 = new Ingredient("Eau",0);
-        Ingredient i4 = new Ingredient("Ananas",0);
-        Ingredient i5 = new Ingredient("Rhum Blanc",0);
-        Ingredient i6 = new Ingredient("Menthe",0);
-        Boisson cafe = new Soft("Café", 5, i1, i2, i3);
-        Boisson cocktail = new Alcool("Cocktail", 5,8.6, i4, i5, i6);
+        Ingredient i1 = new Ingredient("Café",100);
+        Ingredient i2 = new Ingredient("Sucre",100);
+        Ingredient i3 = new Ingredient("Eau",100);
+        Ingredient i4 = new Ingredient("Ananas",100);
+        Ingredient i5 = new Ingredient("Rhum Blanc",100);
+        Ingredient i6 = new Ingredient("Menthe",100);
+        Soft cafe = new Soft("Café", 5, i1, i2, i3);
+        Alcool cocktail = new Alcool("Cocktail", 5,8.6, i4, i5, i6);
         Stock stock = new Stock(i1, i2, i3, i4, i5, i6);
         System.out.println(cafe);
         System.out.println(cocktail);
@@ -19,8 +19,10 @@ public class BarTech {
         stock.incrementerIngredient(i1, 36);
         stock.incrementerIngredient(i3, 37);
         System.out.println(stock);
-        stock.reinitialiserIngredient(i1);
+        cafe.commanderSoft(1);
+        cocktail.commanderAlcool(4);
         System.out.println(stock);
+
 
 
         }

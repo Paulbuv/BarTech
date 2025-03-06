@@ -5,6 +5,7 @@ public abstract class Boisson {
     private String nom;
     private ArrayList<Ingredient> listeIngredient;
     private int prix;
+    private static int cptCommande;
 
     private static String nom_DEFAULT = "N/A";
     private static int prix_DEFAULT = 0;
@@ -45,16 +46,24 @@ public abstract class Boisson {
         return listeIngredient;
     }
 
-    public void setListeIngredient(ArrayList<Ingredient> listeIngredient) {
+    public void setListeIngredientBoisson(ArrayList<Ingredient> listeIngredient) {
         this.listeIngredient = listeIngredient;
     }
 
-    public int getPrix() {
+    public int getPrixBoisson() {
         return prix;
     }
 
-    public void setPrix(int prix) {
+    public void setPrixBoisson(int prix) {
         this.prix = prix;
+    }
+
+    public static int getCptCommande() {
+        return cptCommande;
+    }
+
+    public static void setCptCommande(int cptCommande) {
+        Boisson.cptCommande = cptCommande;
     }
 
     @Override

@@ -12,13 +12,16 @@ Le but du projet est de réaliser une interface permettant la gestion de stock d
 Dans un second onglet, il aura accès à toutes les boissons qu’il sert afin de décrémenter le stock d’ingrédients utilisés pour la préparation d’une boisson choisie.
 
 
--	Choisir une boisson et décrémenter automatiquement les ingrédients en fonction des quantités (nombre de boissons commandées).
--	Ajout d’option de préparation des boissons (en enlevant un ingrédient par exemple).
--	Générer une alerte lorsque le stock d’un ingrédient commence à être faible
--	Indisponibilité de certaines boissons si le stock d’un ingrédient est vide (grisée dans l’IHM).
--	[OPTIONNEL] Étapes 2, 3 et 5 pour des snacks (sous onglet de l’onglet « Boissons »)
--	[OPTIONNEL] Ajout de comptes utilisateurs pour les barmans avec des droits pour gérer le stock.
--	[OPTIONNEL] Statistiques de vente des barmans (nombre de boissons vendues).
+- [x] 	Choisir une boisson et décrémenter automatiquement les ingrédients en fonction des quantités (nombre de boissons commandées).
+- [ ] 	Ajout d’option de préparation des boissons (en enlevant un ingrédient par exemple).
+
+
+
+Générer une alerte lorsque le stock d’un ingrédient commence à être faible
+- [ ] 	Indisponibilité de certaines boissons si le stock d’un ingrédient est vide (grisée dans l’IHM).
+- [ ] 	[OPTIONNEL] Étapes 2, 3 et 5 pour des snacks (sous onglet de l’onglet « Boissons »)
+- [ ] 	[OPTIONNEL] Ajout de comptes utilisateurs pour les barmans avec des droits pour gérer le stock.
+- [ ] 	[OPTIONNEL] Statistiques de vente des barmans (nombre de boissons vendues).
 
 ## Diagramme de classe
 

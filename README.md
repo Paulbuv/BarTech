@@ -13,7 +13,7 @@ Dans un second onglet, il aura accès à toutes les boissons qu’il sert afin d
 
 
 - [x] 	Choisir une boisson et décrémenter automatiquement les ingrédients en fonction des quantités (nombre de boissons commandées).
-- [ ] 	Ajout d’option de préparation des boissons (en enlevant un ingrédient par exemple).
+- [x] 	Ajout d’option de préparation des boissons (en enlevant un ingrédient par exemple).
 
 
 

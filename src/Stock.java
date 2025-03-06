@@ -38,6 +38,8 @@ public class Stock {
         ingredient.setQuantite(0);
     }
 
+
+
     @Override
     public String toString() {
         return "Stock{ " +

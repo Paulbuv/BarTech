@@ -7,8 +7,8 @@ public class BarTech {
         Ingredient i2 = new Ingredient("Sucre",100);
         Ingredient i3 = new Ingredient("Eau",100);
         Ingredient i4 = new Ingredient("Ananas",100);
-        Ingredient i5 = new Ingredient("Rhum Blanc",100);
-        Ingredient i6 = new Ingredient("Menthe",100);
+        Ingredient i5 = new Ingredient("Rhum Blanc",14);
+        Ingredient i6 = new Ingredient("Menthe",3);
         Soft cafe = new Soft("Café", 5, i1, i2, i3);
         Alcool cocktail = new Alcool("Cocktail", 5,8.6, i4, i5, i6);
         Stock stock = new Stock(i1, i2, i3, i4, i5, i6);
@@ -22,6 +22,7 @@ public class BarTech {
         cafe.commanderSoft(1, i1);
         cocktail.commanderAlcool(4, i4, i5);
         System.out.println(stock);
-
+        i6.quantiteTresFaible();
+        i5.quantiteFaible();
         }
     }

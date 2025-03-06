@@ -42,6 +42,21 @@ public class Ingredient {
         this.quantite = quantite;
     }
 
+    public boolean quantiteFaible() {
+        if (this.quantite <= 25 && this.quantite >= 10) {
+            System.out.println("Quantite de "+ this.nom + " faible");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean quantiteTresFaible() {
+        if(this.quantite < 10) {
+            System.out.println("Quantite de "+ this.nom + " très faible");
+            return true;
+        }
+        return false;
+    }
 
 
     @Override

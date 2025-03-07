@@ -14,6 +14,7 @@ public class BarTechGUI extends Application {
 
     private Stock stock; // Instance de la classe Stock
     private Map<String, Ingredient> ingredientMap;
+
     public BarTechGUI() {
 
         // Initialisation du stock avec les ingrédients
@@ -43,31 +44,36 @@ public class BarTechGUI extends Application {
         ListView<String> stockList = new ListView<>();
         updateStockList(stockList); // Mise à jour initiale de la liste
 
-        Button ajouterButton = new Button("Ajouter");
-        Button diminuerButton = new Button("Diminuer");
-        TextField ingredientField = new TextField();
-        ingredientField.setPromptText("Nom de l'ingrédient");
+        Button modifierButton = new Button("Modifier");
         TextField quantiteField = new TextField();
         quantiteField.setPromptText("Quantité");
 
-        // Boutons pour ajouter / diminuer un ingrédient
-        ajouterButton.setOnAction(e -> {
-            String name = ingredientField.getText();
-            Ingredient ingredient = ingredientMap.get(name);
-            int qty = Integer.parseInt(quantiteField.getText());
-            stock.incrementerIngredient(ingredient, qty); // Utilisation de la méthode Stock
-            updateStockList(stockList); // Mise à jour de l'affichage
+        // Permet de sélectionner un ingrédient dans la liste
+        stockList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Extraire le nom de l'ingrédient de l'élément sélectionné
+                String name = newValue.split(":")[0].trim();
+                Ingredient ingredient = ingredientMap.get(name);
+                if (ingredient != null) {
+                    // Pré-remplir le champ quantité avec la quantité actuelle de l'ingrédient
+                    quantiteField.setText(String.valueOf(ingredient.getQuantite()));
+                }
+            }
         });
 
-        diminuerButton.setOnAction(e -> {
-            String name = ingredientField.getText();
-            Ingredient ingredient = ingredientMap.get(name);
-            int qty = Integer.parseInt(quantiteField.getText());
-            stock.decrementerIngredient(ingredient, qty); // Méthode personnalisée à implémenter
-            updateStockList(stockList);
+        // Bouton de modification pour mettre à jour la quantité de l'ingrédient sélectionné
+        modifierButton.setOnAction(e -> {
+            String selectedItem = stockList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                String name = selectedItem.split(":")[0].trim();
+                Ingredient ingredient = ingredientMap.get(name);
+                int newQuantity = Integer.parseInt(quantiteField.getText());
+                stock.definirIngredient(ingredient, newQuantity); // Méthode pour mettre à jour la quantité
+                updateStockList(stockList); // Mise à jour de l'affichage
+            }
         });
 
-        VBox gestionStockSection = new VBox(10, stockLabel, stockList, ingredientField, quantiteField, ajouterButton, diminuerButton);
+        VBox gestionStockSection = new VBox(10, stockLabel, stockList, quantiteField, modifierButton);
         gestionStockSection.setPadding(new Insets(10));
         gestionStockSection.setStyle("-fx-border-color: black;");
 
@@ -88,4 +94,3 @@ public class BarTechGUI extends Application {
         launch(args);
     }
 }
-

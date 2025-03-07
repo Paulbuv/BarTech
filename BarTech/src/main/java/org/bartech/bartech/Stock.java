@@ -36,6 +36,9 @@ public class Stock {
     public void incrementerIngredient(Ingredient ingredient, int quantite) {
         ingredient.setQuantite(ingredient.getQuantite() + quantite);
     }
+    public void definirIngredient(Ingredient ingredient, int quantite) {
+        ingredient.setQuantite(quantite);
+    }
     public void reinitialiserIngredient(Ingredient ingredient) {
         ingredient.setQuantite(0);
     }

@@ -17,8 +17,8 @@ public class BarTechGUI extends Application {
     private Map<String, Button> buttonMap;
     private String selectedIngredient = null;
     private TextField quantiteField;
-
     private VBox addIngredientForm;
+    private FlowPane buttonFlow;
 
     public BarTechGUI() {
         Ingredient cafe = new Ingredient("Café", 100);
@@ -43,36 +43,30 @@ public class BarTechGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("BarTech Management System");
-        primaryStage.setMaximized(true); // Plein écran
+        primaryStage.setMaximized(true);
 
-        // Label principal
         Label stockLabel = new Label("Sélectionnez un ingrédient");
         stockLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
-        // Champ de texte pour modifier la quantité
         quantiteField = new TextField();
         quantiteField.setPromptText("Quantité");
         quantiteField.setStyle("-fx-font-size: 18px;");
 
-        // Bouton de modification
         Button modifierButton = new Button("Modifier");
         modifierButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
+        modifierButton.setOnAction(e -> updateStock());
+        quantiteField.setOnAction(e -> updateStock());
 
-        // Boutons pour modifier la quantité par paliers
-        Button plus1 = new Button("+1");
-        Button moins1 = new Button("-1");
-        Button plus10 = new Button("+10");
-        Button moins10 = new Button("-10");
-        Button plus100 = new Button("+100");
-        Button moins100 = new Button("-100");
+        // Boutons d'ajustement de la quantité
+        Button plus1 = new Button("+1"), moins1 = new Button("-1");
+        Button plus10 = new Button("+10"), moins10 = new Button("-10");
+        Button plus100 = new Button("+100"), moins100 = new Button("-100");
 
         Button[] buttons = {plus1, moins1, plus10, moins10, plus100, moins100};
-
         for (Button btn : buttons) {
             btn.setStyle("-fx-font-size: 14px; -fx-padding: 5px 10px;");
         }
 
-        // Ajout des actions pour ajuster les quantités
         plus1.setOnAction(e -> modifyQuantity(1));
         moins1.setOnAction(e -> modifyQuantity(-1));
         plus10.setOnAction(e -> modifyQuantity(10));
@@ -80,15 +74,31 @@ public class BarTechGUI extends Application {
         plus100.setOnAction(e -> modifyQuantity(100));
         moins100.setOnAction(e -> modifyQuantity(-100));
 
-        // Conteneur des boutons d'ajustement
         HBox adjustmentButtons = new HBox(10, moins100, moins10, moins1, plus1, plus10, plus100);
         adjustmentButtons.setAlignment(Pos.CENTER);
 
-        // Créer le bouton pour afficher le formulaire d'ajout
+        // Conteneur des boutons d'ingrédients avec disposition automatique
+        buttonFlow = new FlowPane();
+        buttonFlow.setHgap(15);
+        buttonFlow.setVgap(15);
+        buttonFlow.setPadding(new Insets(20));
+        buttonFlow.setAlignment(Pos.CENTER);
+        buttonFlow.setPrefWrapLength(800); // Largeur max avant passage à la ligne
+
+        // Ajout dynamique des boutons
+        for (String ingredientName : ingredientMap.keySet()) {
+            addIngredientButton(ingredientName);
+        }
+
+        // Ajout du FlowPane dans un ScrollPane pour permettre le scroll vertical
+        ScrollPane scrollPane = new ScrollPane(buttonFlow);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPannable(true);
+
+        // Formulaire d'ajout d'ingrédient
         Button showAddFormButton = new Button("Ajouter un ingrédient");
         showAddFormButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
 
-        // Créer le formulaire d'ajout (initialement masqué)
         Label addIngredientLabel = new Label("Ajouter un ingrédient");
         TextField addNameField = new TextField();
         addNameField.setPromptText("Nom de l'ingrédient");
@@ -96,7 +106,6 @@ public class BarTechGUI extends Application {
         addQuantityField.setPromptText("Quantité");
         Button addButton = new Button("Ajouter");
 
-        // Action pour ajouter un ingrédient
         addButton.setOnAction(e -> {
             String name = addNameField.getText();
             String quantityText = addQuantityField.getText();
@@ -105,9 +114,9 @@ public class BarTechGUI extends Application {
                 if (!name.isEmpty() && quantity > 0) {
                     Ingredient newIngredient = new Ingredient(name, quantity);
                     ingredientMap.put(name, newIngredient);
-                    stock.addIngredient(newIngredient);  // Ajouter à la classe Stock
-                    updateButtonGrid(); // Mettre à jour les boutons
-                    addIngredientForm.setVisible(false); // Cacher le formulaire après ajout
+                    stock.addIngredient(newIngredient);
+                    addIngredientButton(name);
+                    addIngredientForm.setVisible(false);
                 } else {
                     showAlert("Erreur", "Le nom et la quantité doivent être valides.");
                 }
@@ -116,33 +125,13 @@ public class BarTechGUI extends Application {
             }
         });
 
-        // Formulaire d'ajout d'ingrédient
         addIngredientForm = new VBox(10, addIngredientLabel, addNameField, addQuantityField, addButton);
         addIngredientForm.setSpacing(10);
         addIngredientForm.setPadding(new Insets(10));
-        addIngredientForm.setVisible(false); // Formulaire caché au départ
+        addIngredientForm.setVisible(false);
 
-        // Action du bouton pour afficher ou masquer le formulaire
-        showAddFormButton.setOnAction(e -> {
-            boolean isVisible = addIngredientForm.isVisible();
-            addIngredientForm.setVisible(!isVisible); // Inverser la visibilité
-        });
+        showAddFormButton.setOnAction(e -> addIngredientForm.setVisible(!addIngredientForm.isVisible()));
 
-        // Créer une grille avec les boutons d'ingrédients
-        HBox buttonGrid = new HBox(15);
-        buttonGrid.setPadding(new Insets(20));
-        buttonGrid.setAlignment(Pos.CENTER_LEFT);
-
-        // Ajouter la grille des boutons dans un ScrollPane pour permettre le défilement horizontal
-        ScrollPane scrollPane = new ScrollPane(buttonGrid);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Barre de défilement horizontale visible tout le temps
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  // Pas de barre de défilement verticale
-
-        // Mettre à jour la grille des boutons d'ingrédients
-        updateButtonGrid(buttonGrid);
-
-        // Organisation en grille
         VBox gestionStockSection = new VBox(20, stockLabel, scrollPane, quantiteField, adjustmentButtons, modifierButton,
                 showAddFormButton, addIngredientForm);
         gestionStockSection.setPadding(new Insets(20));
@@ -153,73 +142,71 @@ public class BarTechGUI extends Application {
         primaryStage.show();
     }
 
-    // Mettre à jour la grille des boutons après l'ajout d'un ingrédient
-    private void updateButtonGrid(HBox buttonGrid) {
-        buttonGrid.getChildren().clear(); // Vider la grille existante
+    private void addIngredientButton(String ingredientName) {
+        Ingredient ingredient = ingredientMap.get(ingredientName);
+        Button button = new Button(ingredientName + "\n" + ingredient.getQuantite());
+        button.setStyle("-fx-font-size: 18px; -fx-padding: 20px; -fx-background-color: #2c3e50; -fx-text-fill: white;");
+        button.setMinSize(150, 80);
 
-        for (String ingredientName : ingredientMap.keySet()) {
-            Ingredient ingredient = ingredientMap.get(ingredientName);
+        button.setOnAction(e -> {
+            selectedIngredient = ingredientName;
+            quantiteField.setText(String.valueOf(ingredient.getQuantite()));
+            updateButtonStyles();
+        });
 
-            Button button = new Button(ingredientName + "\n" + ingredient.getQuantite());
-            button.setStyle("-fx-font-size: 18px; -fx-padding: 20px; -fx-background-color: #2c3e50; -fx-text-fill: white;");
-            button.setMinSize(200, 100); // Fixe la taille minimale
-            button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Permet au bouton de s'étirer
-
-            button.setOnAction(e -> {
-                selectedIngredient = ingredientName;
-                quantiteField.setText(String.valueOf(ingredient.getQuantite()));
-                updateButtonStyles();
-            });
-
-            buttonMap.put(ingredientName, button);
-            buttonGrid.getChildren().add(button);
-        }
+        buttonMap.put(ingredientName, button);
+        buttonFlow.getChildren().add(button);
     }
 
-    // Méthode pour mettre à jour le stock et rafraîchir les boutons
-    private void updateStock() {
-        if (selectedIngredient != null) {
-            try {
-                int newQuantity = Integer.parseInt(quantiteField.getText());
-                if (newQuantity < 0) newQuantity = 0; // Empêcher des valeurs négatives
-                Ingredient ingredient = ingredientMap.get(selectedIngredient);
-                stock.definirIngredient(ingredient, newQuantity);
-
-                // Mise à jour de l'affichage des boutons
-                buttonMap.get(selectedIngredient).setText(selectedIngredient + "\n" + newQuantity);
-            } catch (NumberFormatException e) {
-                showAlert("Erreur", "Veuillez entrer un nombre valide.");
-            }
-        }
-    }
-
-    // Méthode pour modifier la quantité via les boutons (+1, -1, +10, -10, ...)
-    private void modifyQuantity(int value) {
-        if (selectedIngredient != null) {
-            try {
-                int currentQuantity = Integer.parseInt(quantiteField.getText());
-                int newQuantity = currentQuantity + value;
-                if (newQuantity < 0) newQuantity = 0; // Empêcher des valeurs négatives
-
-                quantiteField.setText(String.valueOf(newQuantity));
-                updateStock();
-            } catch (NumberFormatException e) {
-                showAlert("Erreur", "Veuillez entrer un nombre valide.");
-            }
-        }
-    }
-
-    // Méthode pour mettre à jour les styles des boutons sélectionnés
     private void updateButtonStyles() {
         for (Button button : buttonMap.values()) {
             button.setStyle("-fx-font-size: 18px; -fx-padding: 20px; -fx-background-color: #2c3e50; -fx-text-fill: white;");
         }
-        if (selectedIngredient != null) {
+        if (selectedIngredient != null && buttonMap.containsKey(selectedIngredient)) {
             buttonMap.get(selectedIngredient).setStyle("-fx-font-size: 18px; -fx-padding: 20px; -fx-background-color: #27ae60; -fx-text-fill: white;");
         }
     }
 
-    // Méthode pour afficher une alerte en cas d'erreur
+    private void modifyQuantity(int value) {
+        if (selectedIngredient != null) {
+            try {
+                int currentQuantity = Integer.parseInt(quantiteField.getText());
+                int newQuantity = Math.max(currentQuantity + value, 0);
+                quantiteField.setText(String.valueOf(newQuantity));
+
+                Ingredient ingredient = ingredientMap.get(selectedIngredient);
+                stock.definirIngredient(ingredient, newQuantity);
+
+                buttonMap.get(selectedIngredient).setText(selectedIngredient + "\n" + newQuantity);
+            } catch (NumberFormatException e) {
+                showAlert("Erreur", "Veuillez entrer une quantité valide.");
+            }
+        }
+    }
+
+    private void updateStock() {
+        if (selectedIngredient != null) {
+            try {
+                // Récupère la nouvelle quantité entrée dans le champ de texte
+                int newQuantity = Integer.parseInt(quantiteField.getText());
+
+                // Mets à jour le stock avec la nouvelle quantité
+                Ingredient ingredient = ingredientMap.get(selectedIngredient);
+                stock.definirIngredient(ingredient, newQuantity);  // Méthode dans la classe Stock pour mettre à jour le stock
+
+                // Mets à jour le texte sur le bouton pour refléter la nouvelle quantité
+                buttonMap.get(selectedIngredient).setText(selectedIngredient + "\n" + newQuantity);
+
+                // Mise à jour de l'interface utilisateur (par exemple, en affichant un message de succès)
+                showAlert("Succès", "Stock mis à jour avec succès.");
+            } catch (NumberFormatException e) {
+                // En cas d'entrée invalide (par exemple, une valeur non numérique)
+                showAlert("Erreur", "Veuillez entrer une quantité valide.");
+            }
+        }
+    }
+
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

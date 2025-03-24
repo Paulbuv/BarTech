@@ -2,11 +2,11 @@ package org.bartech.bartech;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +16,6 @@ public class BarTechGUI extends Application {
     private Map<String, Ingredient> ingredientMap;
 
     public BarTechGUI() {
-
         // Initialisation du stock avec les ingrédients
         Ingredient cafe = new Ingredient("Café", 100);
         Ingredient sucre = new Ingredient("Sucre", 100);
@@ -24,6 +23,7 @@ public class BarTechGUI extends Application {
         Ingredient ananas = new Ingredient("Ananas", 100);
         Ingredient rhum_Blanc = new Ingredient("Rhum Blanc", 100);
         Ingredient menthe = new Ingredient("Menthe", 100);
+
         ingredientMap = new HashMap<>();
         ingredientMap.put("Café", cafe);
         ingredientMap.put("Sucre", sucre);
@@ -32,53 +32,75 @@ public class BarTechGUI extends Application {
         ingredientMap.put("Rhum Blanc", rhum_Blanc);
         ingredientMap.put("Menthe", menthe);
 
-        stock = new Stock(cafe,sucre,eau,ananas,rhum_Blanc,menthe);
+        stock = new Stock(cafe, sucre, eau, ananas, rhum_Blanc, menthe);
     }
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("BarTech Management System");
+        primaryStage.setMaximized(true); // Plein écran
 
-        // Section pour afficher les ingrédients en stock
+        // Label principal
         Label stockLabel = new Label("Gestion du Stock");
-        ListView<String> stockList = new ListView<>();
-        updateStockList(stockList); // Mise à jour initiale de la liste
+        stockLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
-        Button modifierButton = new Button("Modifier");
+        // Liste des ingrédients en stock
+        ListView<String> stockList = new ListView<>();
+        updateStockList(stockList);
+
+        // Champ de texte pour modifier la quantité
         TextField quantiteField = new TextField();
         quantiteField.setPromptText("Quantité");
+        quantiteField.setStyle("-fx-font-size: 18px;");
 
-        // Permet de sélectionner un ingrédient dans la liste
+        // Bouton de modification
+        Button modifierButton = new Button("Modifier");
+        modifierButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
+
+        // Sélection de l'ingrédient dans la liste
         stockList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Extraire le nom de l'ingrédient de l'élément sélectionné
                 String name = newValue.split(":")[0].trim();
                 Ingredient ingredient = ingredientMap.get(name);
                 if (ingredient != null) {
-                    // Pré-remplir le champ quantité avec la quantité actuelle de l'ingrédient
                     quantiteField.setText(String.valueOf(ingredient.getQuantite()));
                 }
             }
         });
 
-        // Bouton de modification pour mettre à jour la quantité de l'ingrédient sélectionné
+        // Action du bouton Modifier
         modifierButton.setOnAction(e -> {
             String selectedItem = stockList.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 String name = selectedItem.split(":")[0].trim();
                 Ingredient ingredient = ingredientMap.get(name);
                 int newQuantity = Integer.parseInt(quantiteField.getText());
-                stock.definirIngredient(ingredient, newQuantity); // Méthode pour mettre à jour la quantité
-                updateStockList(stockList); // Mise à jour de l'affichage
+                stock.definirIngredient(ingredient, newQuantity);
+                updateStockList(stockList);
             }
         });
 
-        VBox gestionStockSection = new VBox(10, stockLabel, stockList, quantiteField, modifierButton);
-        gestionStockSection.setPadding(new Insets(10));
-        gestionStockSection.setStyle("-fx-border-color: black;");
+        // Boutons pour chaque ingrédient
+        HBox ingredientButtons = new HBox(15);
+        ingredientButtons.setAlignment(Pos.CENTER);
+        ingredientButtons.setPadding(new Insets(10));
 
-        // Mise en page principale
-        Scene scene = new Scene(gestionStockSection, 400, 500);
+        for (String ingredientName : ingredientMap.keySet()) {
+            Button button = new Button(ingredientName);
+            button.setStyle("-fx-font-size: 20px; -fx-padding: 15px 30px; -fx-background-color: #2c3e50; -fx-text-fill: white;");
+            button.setOnAction(e -> {
+                Ingredient ingredient = ingredientMap.get(ingredientName);
+                quantiteField.setText(String.valueOf(ingredient.getQuantite()));
+            });
+            ingredientButtons.getChildren().add(button);
+        }
+
+        // Organisation en grille
+        VBox gestionStockSection = new VBox(20, stockLabel, stockList, quantiteField, modifierButton, ingredientButtons);
+        gestionStockSection.setPadding(new Insets(20));
+        gestionStockSection.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(gestionStockSection, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

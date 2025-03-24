@@ -45,7 +45,7 @@ La figure 2 présente les maquettes des différentes interfaces IHM prévues pou
 Pour importer la bonne version à jour du main (quand tu commences a bosser)
 
 	- git checkout main
-	-  git pull
+	- git pull
 
 Pour modifier (JAMAIS DANS LE MAIN)
 
@@ -57,5 +57,5 @@ Il faut être dans le dossier de base de BarTech
 
 Pour les branches :
 
- - git branch *nom de la branche* 	(crée une nouvelle branche)
- - git checkout *branche*		(changer de branche)
+ 	- git branch *nom de la branche* 	(crée une nouvelle branche)
+ 	- git checkout *branche*		(changer de branche)
